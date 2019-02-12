@@ -1,12 +1,20 @@
 class Logica{
     
-    constructor(app){
+    constructor(app, color, nombre){
         this.app = app;
 
         this.app.createCanvas(window.innerWidth, window.innerHeight);
+
+        this.jugadores = [];
         
-        this.jugadorA = new Jugador(this.app);
-        this.jugadorB = new Jugador(this.app, 'MueranPutos');
+        firebase.database().ref().on('child_added', ( snap ) => {
+            let jugador = snap.val();
+            if(jugador.nombre != nombre){
+                this.jugadores.push(new Jugador(this.app, jugador.nombre, jugador.color));
+            }
+        });
+
+        this.jugadorA = new Jugador(this.app, nombre, color);
     }
 
     pintar(){
@@ -15,8 +23,9 @@ class Logica{
         this.jugadorA.mover();
         this.jugadorA.pintar();
 
-        this.jugadorB.mover();
-        this.jugadorB.pintar();
+        this.jugadores.forEach(jug => {
+            jug.pintar();
+        });
     }
 
 }

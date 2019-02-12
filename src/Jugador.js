@@ -1,35 +1,23 @@
 class Jugador{
 
-    constructor(app, name){
+    constructor(app, name, color){
         this.app = app;
         this.name = name;
+        this.color = color;
 
         this.pos = new p5.Vector(0, 0);
         this.tam = 50;
         this.vel = 10;
 
         this.rastro = [];
-
-        this.db = firebase.database();
-        this.ref = this.db.ref(name ? name : '/gavi');
-        if(!this.name) this.ref.remove();
-
-        if(this.name) this.ref.on('child_added', (snapshot) => {
-            var val = snapshot.val();
-            this.rastro.push(new p5.Vector(val.x, val.y));
-        });
     }
 
     mover(){
         var mouse = new p5.Vector(this.app.mouseX, this.app.mouseY);
         var dist = mouse.dist(this.pos);
 
-        if(!this.name && dist > 2){
+        if(dist > 2){
             this.rastro.push(this.pos.copy());
-            this.ref.push({
-                x: this.pos.x,
-                y: this.pos.y,
-            });
         }
 
         if(dist <= this.vel){
@@ -46,7 +34,7 @@ class Jugador{
     pintar(){
         this.app.strokeJoin(this.app.ROUND);
         this.app.noFill();
-        this.app.stroke(0);
+        this.app.stroke(this.color);
         this.app.strokeWeight(10);
         this.app.beginShape();
         for (let i = 0; i < this.rastro.length; i++) {
@@ -57,7 +45,8 @@ class Jugador{
         this.app.endShape();
 
         this.app.noStroke();
-        this.app.fill(200,20,20);
+        this.app.fill(this.color);
         this.app.ellipse(this.pos.x, this.pos.y, this.tam, this.tam);
+        this.app.text(this.name, this.pos.x, this.pos.y + 40);
     }
 }
