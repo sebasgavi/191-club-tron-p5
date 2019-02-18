@@ -5,6 +5,8 @@ class Jugador{
         this.name = name;
         this.color = color;
 
+        this.ref = firebase.database().ref('/' + this.name + '/rastro');
+
         this.pos = new p5.Vector(0, 0);
         this.tam = 50;
         this.vel = 10;
@@ -12,12 +14,27 @@ class Jugador{
         this.rastro = [];
     }
 
-    mover(){
+    escucharMovimiento(){
+        // escuchar a nuevas posiciones de los otros jugadores
+        this.ref.on('child_added', (snapshot) => {
+            let temp = snapshot.val();
+            this.pos = new p5.Vector(temp.x, temp.y);
+            this.rastro.push(this.pos.copy());
+        });
+    }
+
+    seguirMouse(){
         var mouse = new p5.Vector(this.app.mouseX, this.app.mouseY);
         var dist = mouse.dist(this.pos);
 
         if(dist > 2){
             this.rastro.push(this.pos.copy());
+
+            // enviando posiciones de miJugador
+            this.ref.push({
+                x: this.pos.x,
+                y: this.pos.y
+            });
         }
 
         if(dist <= this.vel){

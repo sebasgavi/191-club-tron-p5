@@ -10,18 +10,21 @@ class Logica{
         firebase.database().ref().on('child_added', ( snap ) => {
             let jugador = snap.val();
             if(jugador.nombre != nombre){
-                this.jugadores.push(new Jugador(this.app, jugador.nombre, jugador.color));
+                let jug = new Jugador(this.app, jugador.nombre, jugador.color);
+                this.jugadores.push(jug);
+                jug.escucharMovimiento();
+                // nuevo jugador -> escuchar
             }
         });
 
-        this.jugadorA = new Jugador(this.app, nombre, color);
+        this.miJugador = new Jugador(this.app, nombre, color);
     }
 
     pintar(){
         this.app.background(220);
 
-        this.jugadorA.mover();
-        this.jugadorA.pintar();
+        this.miJugador.seguirMouse();
+        this.miJugador.pintar();
 
         this.jugadores.forEach(jug => {
             jug.pintar();
