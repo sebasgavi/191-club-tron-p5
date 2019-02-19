@@ -10,11 +10,27 @@ class Logica{
         firebase.database().ref().on('child_added', ( snap ) => {
             let jugador = snap.val();
             if(jugador.nombre != nombre){
+                // crea nuevo jugador
                 let jug = new Jugador(this.app, jugador.nombre, jugador.color);
+                // agrega el jugador al arreglo de jugadores
                 this.jugadores.push(jug);
+                // empieza a escuchar el movimiento
                 jug.escucharMovimiento();
-                // nuevo jugador -> escuchar
             }
+        });
+
+        firebase.database().ref().on('child_removed', (snap) => {
+            // toma el nombre de la referencia eliminada
+            let nombreEliminado = snap.val().nombre;
+            // recorre el arreglo de jugadores hasta que retorna true
+            this.jugadores.some((jug, index) => {
+                if(jug.name === nombreEliminado){
+                    // si el nombre del jugador es el mismo eliminado se remueve del arreglo
+                    this.jugadores.splice(index, 1);
+                    // retorna true para salir del loop
+                    return true;
+                }
+            });
         });
 
         this.miJugador = new Jugador(this.app, nombre, color);
@@ -29,6 +45,10 @@ class Logica{
         this.jugadores.forEach(jug => {
             jug.pintar();
         });
+    }
+
+    pressed(){
+        this.miJugador.iniciarRastro();
     }
 
 }

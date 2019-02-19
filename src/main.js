@@ -26,9 +26,14 @@ var app = new Vue({
 
 function iniciarJuego(color, nombre){
 
-    firebase.database().ref('/' + nombre).set({
+    var ref = firebase.database().ref('/' + nombre);
+    ref.set({
         color: color,
         nombre: nombre,
+    });
+
+    window.addEventListener('beforeunload', (e) => {
+       ref.remove(); 
     });
 
     new p5(function(sketch){
@@ -40,6 +45,10 @@ function iniciarJuego(color, nombre){
         
         sketch.draw = function(){
             logica.pintar();
+        }
+
+        sketch.mousePressed = function(){
+            logica.pressed();
         }
     });
 }

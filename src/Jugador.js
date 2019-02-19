@@ -7,6 +7,7 @@ class Jugador{
 
         this.ref = firebase.database().ref('/' + this.name + '/rastro');
 
+        this.dejandoRastro = false;
         this.pos = new p5.Vector(0, 0);
         this.tam = 50;
         this.vel = 10;
@@ -27,7 +28,7 @@ class Jugador{
         var mouse = new p5.Vector(this.app.mouseX, this.app.mouseY);
         var dist = mouse.dist(this.pos);
 
-        if(dist > 2){
+        if(this.dejandoRastro && dist > 2){
             this.rastro.push(this.pos.copy());
 
             // enviando posiciones de miJugador
@@ -65,5 +66,9 @@ class Jugador{
         this.app.fill(this.color);
         this.app.ellipse(this.pos.x, this.pos.y, this.tam, this.tam);
         this.app.text(this.name, this.pos.x, this.pos.y + 40);
+    }
+
+    iniciarRastro(){
+        this.dejandoRastro = true;
     }
 }
