@@ -9,8 +9,8 @@ class Jugador{
 
         this.dejandoRastro = false;
         this.pos = new p5.Vector(0, 0);
-        this.tam = 50;
-        this.vel = 10;
+        this.tam = 20;
+        this.vel = 6;
 
         this.rastro = [];
     }
@@ -49,11 +49,21 @@ class Jugador{
         this.pos.add(dir);
     }
 
+    validarMuerte(jugadores){
+        jugadores.some(jug => {
+            jug.rastro.some(otroPos => {
+                if(this.pos.dist(otroPos) < this.vel){
+                    //alert('PERDISTE ');
+                }
+            })
+        });
+    }
+
     pintar(){
         this.app.strokeJoin(this.app.ROUND);
         this.app.noFill();
         this.app.stroke(this.color);
-        this.app.strokeWeight(10);
+        this.app.strokeWeight(this.tam * .6);
         this.app.beginShape();
         for (let i = 0; i < this.rastro.length; i++) {
             const element = this.rastro[i];

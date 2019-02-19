@@ -40,6 +40,7 @@ class Logica{
         this.app.background(220);
 
         this.miJugador.seguirMouse();
+        this.miJugador.validarMuerte(this.jugadores);
         this.miJugador.pintar();
 
         this.jugadores.forEach(jug => {
