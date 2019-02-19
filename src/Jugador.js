@@ -49,11 +49,14 @@ class Jugador{
         this.pos.add(dir);
     }
 
-    validarMuerte(jugadores){
+    validarMuerte(jugadores, callback){
+        if(!this.dejandoRastro) return;
+
         jugadores.some(jug => {
             jug.rastro.some(otroPos => {
                 if(this.pos.dist(otroPos) < this.vel){
-                    //alert('PERDISTE ');
+                    alert('PERDISTE');
+                    callback();
                 }
             })
         });

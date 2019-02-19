@@ -25,17 +25,6 @@ var app = new Vue({
 });
 
 function iniciarJuego(color, nombre){
-
-    var ref = firebase.database().ref('/' + nombre);
-    ref.set({
-        color: color,
-        nombre: nombre,
-    });
-
-    window.addEventListener('beforeunload', (e) => {
-       ref.remove(); 
-    });
-
     new p5(function(sketch){
         var logica;
     
