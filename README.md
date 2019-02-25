@@ -18,3 +18,6 @@ Es importante que sean objetos independientes, que permitan agregarlos al códig
 
 ## Referencia:
 ![Juego tron](http://assets.funnygames.com.co/games/assets/screenshots/1/4471/57438/original_2-149936.jpg?r=0)
+
+### Branch Animations:
+crear todas las animaciones generadas por las interacciones de los usuarios y elementos de la interfaz (Choques, clicks, rastro ...)
