@@ -21,3 +21,6 @@ Es importante que sean objetos independientes, que permitan agregarlos al códig
 
 ### Branch Mobile:
 Crear una interacción para dispositivos móviles.
+
+### Branch Camera:
+Adaptar el movimiento de la cámara al personaje para que este siempre se encuentre en el centro 
